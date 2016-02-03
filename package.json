@@ -11,5 +11,18 @@
     "express-myconnection": "*",
     "express-validator": "^2.6.0",
     "mysql": "*"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aguilangeles/rest-crud-master.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aguilangeles/rest-crud-master/issues"
+  },
+  "homepage": "https://github.com/aguilangeles/rest-crud-master#readme"
 }
