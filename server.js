@@ -175,6 +175,8 @@ curut2.get(function(req,res,next){
 curut2.put(function(req,res,next){
     var user_id = req.params.user_id;
 
+    console.log("PSOT");
+
     //validation
     req.assert('name','Name is required').notEmpty();
     req.assert('email','A valid email is required').isEmail();
