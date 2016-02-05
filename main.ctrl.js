@@ -15,8 +15,12 @@ var app =angular
                 $scope.formData = {};
                //filtered by 
                 $scope.searchInput="";
-                //search by id
+                //search by id trae el id solo para la consulta
                 $scope.user_id="";
+                //
+                $scope.auser={};
+                //
+                 $scope.updateData = {};
 
                 loadRemoteData();
                 // ---
@@ -41,7 +45,7 @@ var app =angular
                 };
                 // I remove the given user from the current collection.
                 $scope.removeUser = function( user ) {
-                    console.log(user.user_id);
+                    console.log('remove '+user.user_id);
                     // Rather than doing anything clever on the client-side, I'm just
                     // going to reload the remote data.
                     userService.removeUser( user.user_id )
@@ -49,17 +53,33 @@ var app =angular
                     ;
                 };
 
+                $scope.updateUser = function() {
+                    console.log('update '+ user.user_id);
+                    // Rather than doing anything clever on the client-side, I'm just
+                    // going to reload the remote data.
+                    userService.updateUser($scope.updateData)
+                        .then(
+                            loadRemoteData,
+                            function( errorMessage ) {
+                                console.warn( errorMessage );
+                            }
+                        );
+                };
                 $scope.getUserbyId = function(){
                     console.log('get user by id' + $scope.user_id)
                     userService.getUserbyId($scope.user_id)
-                    .then(loadRemoteData);
+                    .then(asingUser);
                 }
+
                 // ---
                 // PRIVATE METHODS.
                 // ---
                 // I apply the remote data to the local scope.
                 function applyRemoteData( newusers ) {
                     $scope.users = newusers;
+                }
+                function asingUser(auser){
+                    $scope.auser=auser;
                 }
                 // I load the remote data from the server.
                 function loadRemoteData() {
@@ -86,7 +106,8 @@ var app =angular
                     addUser: addUser,
                     getUsers: getUsers,
                     removeUser: removeUser,
-                    getUserbyId: getUserbyId
+                    getUserbyId: getUserbyId,
+                    updateUser:updateUser
                 });
                 // ---
                 // PUBLIC METHODS.
@@ -145,7 +166,20 @@ var app =angular
                     return( request.then( handleSuccess, handleError ) );
                 }
 
-
+                //update
+                function updateUser( user_id ) {
+                    var request = $http({
+                        method: "put",
+                        url: "http://localhost:3000/api/user/"+user_id,
+                        params: {
+                            action: "put"
+                        },
+                        data: {
+                            user_id: user_id
+                        }
+                    });
+                    return( request.then( handleSuccess, handleError ) );
+                }
 
                 // ---
                 // PRIVATE METHODS.
