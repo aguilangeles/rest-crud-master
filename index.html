@@ -13,43 +13,99 @@
 		<div class="row">
 			<div class="col-lg-8">
 				<h1>{{main.title}}</h1>
+
 			</div>
 		</div>
 		<div class="row">
-			<h3>Lista de sarasa</h3>
-			<h2>{{main.usuarios.data}}</h2>
-			<ul class="list-group">
-				<li class="list-group-item" ng-repeat="show in users">
+			<div class="col-lg-4">			
 
-					<span>Nombre: {{show.name}}</span><br>
-					<span>email: {{show.email}}</span><br>
-					<span>Apellido: {{show.password}}</span><br>
-				</li>
-			</ul>
-		</div>
-		<div class="row">
-			
-			<h3>Add a new User</h3>
-			<form  name="addUser" class="form" ng-submit="addUser">
-				<div class="form-group">
-					<label for="">Nombre</label>
-					<input type="text" class="form-control" ng-model="form.name" required>
-				</div>
-				<div class="form-group">
-					<label for="">Email</label>
-					<input type="email" class="form-control" ng-model="form.email" required>
-				</div>
-				<div class="form-group">
-					<label for="">Password</label>
-					<input type="password" class="form-control" ng-model="form.password" required>
-				</div>
-					<div class="col xs-6">
-						<button class="btn btn-success pull-right"> <span class="glyphicon glyphicon-plus-sign">Add</span></button>
+				<h3>Lista de sarasa</h3>
+			<div class="input-group">
+				<span class="input-group-addon">
+					<span class="glyphicon glyphicon-search"></span>
+				</span>
+				<input type="text" class="form-control" ng-model="searchInput">
+			</div>
+				<hr>
+
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="user in users | filter: searchInput">
+
+						<span>Nombre: {{user.name}}</span><br>
+						<span>email: {{user.email}}</span>
+						<button class="btn btn-danger pull-right"> 
+							<span class="glyphicon glyphicon-minus-sign" ng-click="removeUser(user)"> Delete {{user.user_id}}</span>
+						</button>
+						<br>
+						<span>Apellido: {{user.password}}</span><br>
+						<pre>
+						{{user}}
+						</pre>
+
+
+
+					</li>
+				</ul>
+			</div>
+			<div class="col-lg-4">			
+				<h3>Agregar nuevo User</h3>
+				<form  name="data" class="form"  ng-submit="addUser()">
+					<div class="form-group">
+						<label for="">Nombre</label>
+						<input type="text" class="form-control" ng-model="formData.name" required>
 					</div>
-				</div> 
-			</form>
-		</div>
+					<div class="form-group">
+						<label for="">Email</label>
+						<input type="email" class="form-control" ng-model="formData.email" required>
+					</div>
+					<div class="form-group">
+						<label for="">Password</label>
+						<input type="password" class="form-control" ng-model="formData.password" required>
+					</div>
+					<pre class=" col-xs-12 pull-right">
+						{{formData}}
+					</pre>
+					<div class="col-xs-12">
+						<button class="btn btn-success pull-right"> <span class="glyphicon glyphicon-plus-sign"> Add</span></button>
+					</div>				 
+				</form>
+			</div>
+			<div class="col-lg-4">		
+			<h3>Buscar Usuario por id</h3>
+			<br>
+				<div class="input-group">
+				<input type="text" class="form-control" ng-model="user_id">
+					<span class="input-group-btn">
+					<button class="btn btn-primary" ng-click="getUserbyId()">Find</button>
+				</span>
+				
+			</div>
+			<pre class=" col-xs-12 pull-right">
+						{{getUserbyIdForm}}
+					</pre>
+			<!-- <form  name="data" class="form"  ng-submit="updateUser()">
+					<div class="form-group">
+						<label for="">Nombre</label>
+						<input type="text" class="form-control" ng-model="formData.name" required>
+					</div>
+					<div class="form-group">
+						<label for="">Email</label>
+						<input type="email" class="form-control" ng-model="formData.email" required>
+					</div>
+					<div class="form-group">
+						<label for="">Password</label>
+						<input type="password" class="form-control" ng-model="formData.password" required>
+					</div>
+					<pre class=" col-xs-12 pull-right">
+						{{formData}}
+					</pre>
+					<div class="col-xs-12">
+						<button class="btn btn-info pull-right"> <span class="glyphicon glyphicon-plus-sign"> Add</span></button>
+					</div>				 
+				</form> -->
+			</div>
+		</div><!--row-->
 	</div>
-	
+
 </body>
 </html>

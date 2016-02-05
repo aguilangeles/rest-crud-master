@@ -133,13 +133,13 @@ stuffs for specific routes. for example you need to do
 a validation everytime route /api/user/:user_id it hit.
 
 remove curut2.all() if you dont want it
-------------------------------------------------------*/
+------------------------------------------------------
 curut2.all(function(req,res,next){
     console.log("You need to smth about curut2 Route ? Do it here");
     console.log(req.params);
     next();
 });
-
+*/
 //get data to update
 curut2.get(function(req,res,next){
 

@@ -1,3 +1,4 @@
+/*http://www.bennadel.com/blog/2612-using-the-http-service-in-angularjs-to-make-ajax-requests.htm*/
 
 var app =angular
 .module('myapplication');
@@ -11,11 +12,12 @@ var app =angular
                 // I contain the list of users to be rendered.
                 $scope.users = [];
                 // I contain the ngModel values for form interaction.
-                $scope.form = {
-                    name: "",
-                    email:"",
-                    password:""
-                };
+                $scope.formData = {};
+               //filtered by 
+                $scope.searchInput="";
+                //search by id
+                $scope.user_id="";
+
                 loadRemoteData();
                 // ---
                 // PUBLIC METHODS.
@@ -26,7 +28,7 @@ var app =angular
                     // at which point we can tell the user that something went wrong. In
                     // this case, I'm just logging to the console to keep things very
                     // simple for the demo.
-                    userService.addUser( $scope)
+                    userService.addUser($scope.formData)
                         .then(
                             loadRemoteData,
                             function( errorMessage ) {
@@ -35,16 +37,23 @@ var app =angular
                         )
                     ;
                     // Reset the form once values have been consumed.
-                    $scope.form.name = "";
+                    //$scope.formData.name = "";
                 };
                 // I remove the given user from the current collection.
                 $scope.removeUser = function( user ) {
+                    console.log(user.user_id);
                     // Rather than doing anything clever on the client-side, I'm just
                     // going to reload the remote data.
-                    userService.removeUser( user.id )
+                    userService.removeUser( user.user_id )
                         .then( loadRemoteData )
                     ;
                 };
+
+                $scope.getUserbyId = function(){
+                    console.log('get user by id' + $scope.user_id)
+                    userService.getUserbyId($scope.user_id)
+                    .then(loadRemoteData);
+                }
                 // ---
                 // PRIVATE METHODS.
                 // ---
@@ -57,7 +66,8 @@ var app =angular
                     // The userService returns a promise.
                     userService.getUsers()
                         .then(
-                            function( users ) {
+                            function(users) {
+                                console.log('users' + users);
                                 applyRemoteData( users );
                             }
                         )
@@ -74,25 +84,24 @@ var app =angular
                 // Return public API.
                 return({
                     addUser: addUser,
-                    getUsers: getUsers/*,
-                    removeUser: removeUser*/
+                    getUsers: getUsers,
+                    removeUser: removeUser,
+                    getUserbyId: getUserbyId
                 });
                 // ---
                 // PUBLIC METHODS.
                 // ---
                 // I add a user with the given name to the remote collection.
-                function addUser( name, email, pass ) {
+                function addUser(data) {
+                console.log(data);
                     var request = $http({
                         method: "post",
                         url: "http://localhost:3000/api/user",
                         params: {
                             action: "add"
                         },
-                        data: {
-                            name: name,
-                            email:email,
-                            password:pass
-                        }
+
+                        data: data
                     });
                     return( request.then( handleSuccess, handleError ) );
                 }
@@ -108,19 +117,36 @@ var app =angular
                     return( request.then( handleSuccess, handleError ) );
                 }
                 // I remove the user with the given ID from the remote collection.
-                function removeUser( id ) {
+                function removeUser( user_id ) {
                     var request = $http({
                         method: "delete",
-                        url: "api/index.cfm",
+                        url: "http://localhost:3000/api/user/"+user_id,
                         params: {
                             action: "delete"
                         },
                         data: {
-                            id: id
+                            user_id: user_id
                         }
                     });
                     return( request.then( handleSuccess, handleError ) );
                 }
+                //get  user by id
+                 function getUserbyId( user_id ) {
+                    var request = $http({
+                        method: "get",
+                        url: "http://localhost:3000/api/user/"+user_id,
+                        params: {
+                            action: "get"
+                        },
+                        data: {
+                            user_id: user_id
+                        }
+                    });
+                    return( request.then( handleSuccess, handleError ) );
+                }
+
+
+
                 // ---
                 // PRIVATE METHODS.
                 // ---
