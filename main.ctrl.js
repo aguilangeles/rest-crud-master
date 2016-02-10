@@ -1,5 +1,5 @@
 /*http://www.bennadel.com/blog/2612-using-the-http-service-in-angularjs-to-make-ajax-requests.htm*/
-
+var global;
 var app =angular
 .module('myapplication');
 
@@ -19,9 +19,10 @@ var app =angular
                 $scope.user_id="";
                 //
                 $scope.auser={};
-                //
-                 $scope.updateData = {};
 
+                $scope.updateable="";
+                //
+               
                 loadRemoteData();
                 // ---
                 // PUBLIC METHODS.
@@ -54,10 +55,11 @@ var app =angular
                 };
 
                 $scope.updateUser = function() {
-                    console.log('update '+ user.user_id);
-                    // Rather than doing anything clever on the client-side, I'm just
+                   console.log('update user '+ $scope.updateable); 
+                global=$scope.updateable;
+                                        // Rather than doing anything clever on the client-side, I'm just
                     // going to reload the remote data.
-                    userService.updateUser($scope.updateData)
+                    userService.updateUser($scope.updateable)
                         .then(
                             loadRemoteData,
                             function( errorMessage ) {
@@ -79,7 +81,8 @@ var app =angular
                     $scope.users = newusers;
                 }
                 function asingUser(auser){
-                    $scope.auser=auser;
+                    $scope.updateable=auser[0];
+                    //$scope.auser=auser;
                 }
                 // I load the remote data from the server.
                 function loadRemoteData() {
@@ -160,23 +163,24 @@ var app =angular
                             action: "get"
                         },
                         data: {
-                            user_id: user_id
+                            data:data
                         }
                     });
                     return( request.then( handleSuccess, handleError ) );
                 }
 
                 //update
-                function updateUser( user_id ) {
+                function updateUser(data) {//¿data y id??
+                  
+                    
+                      console.log('-----user id--------'+data.user_id);
                     var request = $http({
                         method: "put",
-                        url: "http://localhost:3000/api/user/"+user_id,
+                        url: "http://localhost:3000/api/user/"+data.user_id,
                         params: {
                             action: "put"
                         },
-                        data: {
-                            user_id: user_id
-                        }
+                        data: data
                     });
                     return( request.then( handleSuccess, handleError ) );
                 }

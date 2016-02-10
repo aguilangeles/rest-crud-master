@@ -20,12 +20,12 @@
 			<div class="col-lg-4">			
 
 				<h3>Lista de sarasa</h3>
-			<div class="input-group">
-				<span class="input-group-addon">
-					<span class="glyphicon glyphicon-search"></span>
-				</span>
-				<input type="text" class="form-control" ng-model="searchInput">
-			</div>
+				<div class="input-group">
+					<span class="input-group-addon">
+						<span class="glyphicon glyphicon-search"></span>
+					</span>
+					<input type="text" class="form-control" ng-model="searchInput">
+				</div>
 				<hr>
 
 				<ul class="list-group">
@@ -39,7 +39,7 @@
 						<br>
 						<span>Apellido: {{user.password}}</span><br>
 						<pre>
-						{{user}}
+							{{user}}
 						</pre>
 
 
@@ -71,31 +71,34 @@
 				</form>
 			</div>
 			<div class="col-lg-4">		
-			<h3>Buscar Usuario por id</h3>
-			<br>
+				<h3>Buscar Usuario por id</h3>
+				<br>
 				<div class="input-group">
-				<input type="text" class="form-control" ng-model="user_id">
+					<input type="text" class="form-control" ng-model="user_id">
 					<span class="input-group-btn">
-					<button class="btn btn-primary" ng-click="getUserbyId()">Find</button>
-				</span>
-				
+						<button class="btn btn-primary"   ng-click="getUserbyId()" >Find</button>
+					</span>
+
+				</div>
+			<div>
+
+			<div>
+				<br><br>
+				<form name="dataupdate" class="form"  ng-submit="updateUser()">
+					<input type="hidden" class="form-control" ng-model="updateable.user_id" disabled>
+				<input type="text" class="form-control" ng-model="updateable.name" required>
+				<input type="email" class="form-control" ng-model="updateable.email" required>
+				<input type="text" class="form-control" ng-model="updateable.password" required>
+
+				<br>
+				<div class="col-xs-12">
+					<button class="btn btn-info btn-large btn-block"> Update</span></button>
+				</div>	
+			</form>
 			</div>
-			<ul ng-repeat="(key, value) in auser">
-			<form  name="dataupdate" class="form"  ng-submit="updateUser()">
-				<input type="text" class="form-control" ng-model="value.name" required>
-				<input type="text" class="form-control" ng-model="value.email" required>
-				<input type="text" class="form-control" ng-model="value.password" required>
-			
-			<br>
-			<div class="col-xs-12">
-						<button class="btn btn-info btn-large btn-block"> Update</span></button>
-					</div>	
-		</ul>
-	</form>
-			
-			</div>
-		</div><!--row-->
-	</div>
+
+</div><!--row-->
+</div>
 
 </body>
 </html>
