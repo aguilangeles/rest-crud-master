@@ -1,5 +1,4 @@
 /*http://www.bennadel.com/blog/2612-using-the-http-service-in-angularjs-to-make-ajax-requests.htm*/
-var global;
 var app =angular
 .module('myapplication');
 
@@ -9,6 +8,8 @@ var app =angular
         app.controller(
             "MainController",
             function( $scope, userService ) {
+                $scope.title="ABM";
+                $scope.lista="Listado de Usuarios";
                 // I contain the list of users to be rendered.
                 $scope.users = [];
                 // I contain the ngModel values for form interaction.
@@ -46,7 +47,6 @@ var app =angular
                 };
                 // I remove the given user from the current collection.
                 $scope.removeUser = function( user ) {
-                    console.log('remove '+user.user_id);
                     // Rather than doing anything clever on the client-side, I'm just
                     // going to reload the remote data.
                     userService.removeUser( user.user_id )
@@ -55,9 +55,8 @@ var app =angular
                 };
 
                 $scope.updateUser = function() {
-                   console.log('update user '+ $scope.updateable); 
-                global=$scope.updateable;
-                                        // Rather than doing anything clever on the client-side, I'm just
+                  
+                 // Rather than doing anything clever on the client-side, I'm just
                     // going to reload the remote data.
                     userService.updateUser($scope.updateable)
                         .then(
@@ -68,7 +67,6 @@ var app =angular
                         );
                 };
                 $scope.getUserbyId = function(){
-                    console.log('get user by id' + $scope.user_id)
                     userService.getUserbyId($scope.user_id)
                     .then(asingUser);
                 }
@@ -148,9 +146,7 @@ var app =angular
                         params: {
                             action: "delete"
                         },
-                        data: {
-                            user_id: user_id
-                        }
+
                     });
                     return( request.then( handleSuccess, handleError ) );
                 }
@@ -172,8 +168,6 @@ var app =angular
                 //update
                 function updateUser(data) {//¿data y id??
                   
-                    
-                      console.log('-----user id--------'+data.user_id);
                     var request = $http({
                         method: "put",
                         url: "http://localhost:3000/api/user/"+data.user_id,

@@ -12,14 +12,13 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-8">
-				<h1>{{main.title}}</h1>
-
+				<h1>{{title}}</h1>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-4">			
 
-				<h3>Lista de sarasa</h3>
+				<h3>{{lista}}</h3>
 				<div class="input-group">
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-search"></span>
@@ -38,12 +37,9 @@
 						</button>
 						<br>
 						<span>Apellido: {{user.password}}</span><br>
-						<pre>
-							{{user}}
-						</pre>
-
-
-
+<!--pre>
+{{user}}
+</pre-->
 					</li>
 				</ul>
 			</div>
@@ -62,9 +58,9 @@
 						<label for="">Password</label>
 						<input type="password" class="form-control" ng-model="formData.password" required>
 					</div>
-					<!--pre class=" col-xs-12 pull-right">
-						{{formData}}
-					</pre-->
+			<!--pre class=" col-xs-12 pull-right">
+			{{formData}}
+			</pre-->
 					<div class="col-xs-12">
 						<button class="btn btn-success pull-right"> <span class="glyphicon glyphicon-plus-sign"> Add</span></button>
 					</div>				 
@@ -78,27 +74,23 @@
 					<span class="input-group-btn">
 						<button class="btn btn-primary"   ng-click="getUserbyId()" >Find</button>
 					</span>
-
 				</div>
-			<div>
+				<div>
+					<div>
+						<br><br>
+						<form name="dataupdate" class="form"  ng-submit="updateUser()">
+							<input type="hidden" class="form-control" ng-model="updateable.user_id" disabled>
+							<input type="text" class="form-control" ng-model="updateable.name" required>
+							<input type="email" class="form-control" ng-model="updateable.email" required>
+							<input type="text" class="form-control" ng-model="updateable.password" required>
+							<br>
+							<div class="col-xs-12">
+								<button class="btn btn-info btn-large btn-block"> Update</span></button>
+							</div>	
+						</form>
+					</div>
 
-			<div>
-				<br><br>
-				<form name="dataupdate" class="form"  ng-submit="updateUser()">
-					<input type="hidden" class="form-control" ng-model="updateable.user_id" disabled>
-				<input type="text" class="form-control" ng-model="updateable.name" required>
-				<input type="email" class="form-control" ng-model="updateable.email" required>
-				<input type="text" class="form-control" ng-model="updateable.password" required>
-
-				<br>
-				<div class="col-xs-12">
-					<button class="btn btn-info btn-large btn-block"> Update</span></button>
-				</div>	
-			</form>
+				</div><!--row-->
 			</div>
-
-</div><!--row-->
-</div>
-
 </body>
 </html>
