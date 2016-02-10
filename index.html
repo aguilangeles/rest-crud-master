@@ -11,12 +11,12 @@
 <body ng-app="myapplication" ng-controller="MainController">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-8">
+			<div class="col-lg-12">
 				<h1>{{title}}</h1>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-4">			
+			<div class="col-lg-12">			
 
 				<h3>{{lista}}</h3>
 				<div class="input-group">
@@ -26,47 +26,77 @@
 					<input type="text" class="form-control" ng-model="searchInput">
 				</div>
 				<hr>
-
-				<ul class="list-group">
-					<li class="list-group-item" ng-repeat="user in users | filter: searchInput">
-
-						<span>Nombre: {{user.name}}</span><br>
-						<span>email: {{user.email}}</span>
-						<button class="btn btn-danger pull-right"> 
-							<span class="glyphicon glyphicon-minus-sign" ng-click="removeUser(user)"> Delete {{user.user_id}}</span>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>
+								<a href="#" ng-click="sortType = 'name' ; sortReverse =!sortReverse">Nombre
+									<span ng-show="sortType == 'name' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+									<span ng-show="sortType == 'name' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="sortType = 'email' ; sortReverse =!sortReverse">Email
+									<span ng-show="sortType == 'email' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+									<span ng-show="sortType == 'email' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="sortType = 'password' ; sortReverse =!sortReverse">Password
+									<span ng-show="sortType == 'password' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+									<span ng-show="sortType == 'password' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+								</a>
+							</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+				  <tbody>
+				    <tr ng-repeat="user in users | filter: searchInput |orderBy:sortType:sortReverse">
+				      <th scope="row">{{user.user_id}}</th>				     
+				      <td>{{user.name}}</td>
+				      <td>{{user.email}}</td>
+				      <td>{{user.password}}</td>
+				      <td><button class="btn btn-danger"> 
+							<span class="glyphicon glyphicon-minus-sign" ng-click="removeUser(user)"> Delete</span>
 						</button>
-						<br>
-						<span>Apellido: {{user.password}}</span><br>
-<!--pre>
-{{user}}
-</pre-->
-					</li>
-				</ul>
+					</td>
+				    </tr>
+				    
+				  </tbody>
+				</table>
 			</div>
-			<div class="col-lg-4">			
-				<h3>Agregar nuevo User</h3>
-				<form  name="data" class="form"  ng-submit="addUser()">
-					<div class="form-group">
+			<div class="col-lg-6">			
+				<h3>Agregar nuevo Usuario</h3>
+				<form  name="form" class="form"  ng-submit="addUser()" novalidate>
+					<div class="form-group" ng-class="{ 'has-error' : form.name.$invalid && !form.name.$pristine }">
 						<label for="">Nombre</label>
-						<input type="text" class="form-control" ng-model="formData.name" required>
+						<input type="text" name="name" class="form-control" ng-model="formData.name" required>
+						<p ng-show="form.name.$invalid && !form.name.$pristine" class="help-block">Nombre es requerido</p>
+
 					</div>
-					<div class="form-group">
+					<div class="form-group" ng-class="{ 'has-error' : form.email.$invalid && !form.email.$pristine }">
 						<label for="">Email</label>
-						<input type="email" class="form-control" ng-model="formData.email" required>
+						<!--validar puntocom-->
+						<input type="email" name="email" class="form-control" ng-model="formData.email" required>
+						<p ng-show="form.email.$invalid && !form.email.$pristiine"class="help-block">Ingrese un mail valido</p>
 					</div>
-					<div class="form-group">
-						<label for="">Password</label>
-						<input type="password" class="form-control" ng-model="formData.password" required>
-					</div>
+
+					<div class="form-group" ng-class="{ 'has-error' : form.password.$invalid && !form.password.$pristine }">
+            <label>Username</label>
+            <input type="password" name="password" class="form-control" ng-model="formData.password" ng-minlength="6" ng-maxlength="20">
+            <p ng-show="form.password.$error.minlength" class="help-block">Password demasiado corto.</p>
+            <p ng-show="form.password.$error.maxlength" class="help-block">Password demasiado largo.</p>
+        </div>
 			<!--pre class=" col-xs-12 pull-right">
 			{{formData}}
 			</pre-->
 					<div class="col-xs-12">
-						<button class="btn btn-success pull-right"> <span class="glyphicon glyphicon-plus-sign"> Add</span></button>
+						<button class="btn btn-success pull-right" ng-disabled="formData.$invalid"> <span class="glyphicon glyphicon-plus-sign"> Add</span></button>
 					</div>				 
 				</form>
 			</div>
-			<div class="col-lg-4">		
+			<div class="col-lg-6">		
 				<h3>Buscar Usuario por id</h3>
 				<br>
 				<div class="input-group">
@@ -79,7 +109,7 @@
 					<div>
 						<br><br>
 						<form name="dataupdate" class="form"  ng-submit="updateUser()">
-							<input type="hidden" class="form-control" ng-model="updateable.user_id" disabled>
+							<input type="num" class="form-control" ng-model="updateable.user_id"  disabled>
 							<input type="text" class="form-control" ng-model="updateable.name" required>
 							<input type="email" class="form-control" ng-model="updateable.email" required>
 							<input type="text" class="form-control" ng-model="updateable.password" required>

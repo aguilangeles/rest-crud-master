@@ -1,15 +1,17 @@
-/*http://www.bennadel.com/blog/2612-using-the-http-service-in-angularjs-to-make-ajax-requests.htm*/
+/**
+http://www.bennadel.com/blog/2612-using-the-http-service-in-angularjs-to-make-ajax-requests.htm
+*/
 var app =angular
 .module('myapplication');
 
-/**/
-
-  // I control the main demo.
+ // I control the main demo.
         app.controller(
             "MainController",
             function( $scope, userService ) {
                 $scope.title="ABM";
                 $scope.lista="Listado de Usuarios";
+                $scope.sortType ='name';
+                $scope.sortReverse =false;
                 // I contain the list of users to be rendered.
                 $scope.users = [];
                 // I contain the ngModel values for form interaction.
@@ -22,6 +24,8 @@ var app =angular
                 $scope.auser={};
 
                 $scope.updateable="";
+
+            
                 //
                
                 loadRemoteData();
@@ -43,8 +47,9 @@ var app =angular
                         )
                     ;
                     // Reset the form once values have been consumed.
-                    //$scope.formData.name = "";
-                };
+                    $scope.formData = ""; 
+                   
+                       };
                 // I remove the given user from the current collection.
                 $scope.removeUser = function( user ) {
                     // Rather than doing anything clever on the client-side, I'm just
@@ -65,10 +70,15 @@ var app =angular
                                 console.warn( errorMessage );
                             }
                         );
+                        // Reset the form once values have been updated.
+                    $scope.updateable = "";
+
                 };
                 $scope.getUserbyId = function(){
                     userService.getUserbyId($scope.user_id)
                     .then(asingUser);
+                    //refresh
+                    $scope.user_id="";
                 }
 
                 // ---
