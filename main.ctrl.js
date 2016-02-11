@@ -50,7 +50,7 @@ var app =angular
                
                     // Reset the form once values have been consumed.
                     //cope.formData = ""; 
-                    $scope.formData = '';
+                        $scope.formData = '';
                        };
                 // I remove the given user from the current collection.
                 $scope.removeUser = function( user ) {
@@ -76,18 +76,16 @@ var app =angular
                     $scope.updateable = "";
 
                 };
+
                 $scope.getUserbyId = function(){
                     userService.getUserbyId($scope.user_id)
                     .then(asingUser);
                     //refresh
-                    $scope.user_id="";
+                
                 }
+
                 $scope.reset = function (){
                 $scope.form.$setPristine();
-       
-                
-
-                //$scope.form.$setPristine();
                 }
                 // ---
                 // PRIVATE METHODS.
