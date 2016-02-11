@@ -1,17 +1,14 @@
-/**
-http://www.bennadel.com/blog/2612-using-the-http-service-in-angularjs-to-make-ajax-requests.htm
-*/
+/*http://www.bennadel.com/blog/2612-using-the-http-service-in-angularjs-to-make-ajax-requests.htm*/
+var global;
 var app =angular
 .module('myapplication');
 
- // I control the main demo.
+/**/
+
+  // I control the main demo.
         app.controller(
             "MainController",
             function( $scope, userService ) {
-                $scope.title="ABM";
-                $scope.lista="Listado de Usuarios";
-                $scope.sortType ='name';
-                $scope.sortReverse =false;
                 // I contain the list of users to be rendered.
                 $scope.users = [];
                 // I contain the ngModel values for form interaction.
@@ -24,8 +21,6 @@ var app =angular
                 $scope.auser={};
 
                 $scope.updateable="";
-
-            
                 //
                
                 loadRemoteData();
@@ -46,14 +41,12 @@ var app =angular
                             }
                         )
                     ;
-
-               
                     // Reset the form once values have been consumed.
-                    //cope.formData = ""; 
-                        $scope.formData = '';
-                       };
+                    //$scope.formData.name = "";
+                };
                 // I remove the given user from the current collection.
                 $scope.removeUser = function( user ) {
+                    console.log('remove '+user.user_id);
                     // Rather than doing anything clever on the client-side, I'm just
                     // going to reload the remote data.
                     userService.removeUser( user.user_id )
@@ -62,8 +55,9 @@ var app =angular
                 };
 
                 $scope.updateUser = function() {
-                  
-                 // Rather than doing anything clever on the client-side, I'm just
+                   console.log('update user '+ $scope.updateable); 
+                global=$scope.updateable;
+                                        // Rather than doing anything clever on the client-side, I'm just
                     // going to reload the remote data.
                     userService.updateUser($scope.updateable)
                         .then(
@@ -72,18 +66,13 @@ var app =angular
                                 console.warn( errorMessage );
                             }
                         );
-                        // Reset the form once values have been updated.
                 };
-
                 $scope.getUserbyId = function(){
-                    console.log('get user by id' + $scope.user_id);
+                    console.log('get user by id' + $scope.user_id)
                     userService.getUserbyId($scope.user_id)
                     .then(asingUser);
-                    //refresh
-                
                 }
 
-              
                 // ---
                 // PRIVATE METHODS.
                 // ---
@@ -95,7 +84,6 @@ var app =angular
                     $scope.updateable=auser[0];
                     //$scope.auser=auser;
                 }
-
                 // I load the remote data from the server.
                 function loadRemoteData() {
                     // The userService returns a promise.
@@ -107,9 +95,6 @@ var app =angular
                             }
                         )
                     ;
-                }
-                $scope.reset = function (){
-                $scope.form.$setPristine();
                 }
             }
         );
@@ -152,7 +137,6 @@ var app =angular
                         params: {
                             action: "get"
                         }
-
                     });
                     return( request.then( handleSuccess, handleError ) );
                 }
@@ -167,28 +151,29 @@ var app =angular
                         data: {
                             user_id: user_id
                         }
-
                     });
                     return( request.then( handleSuccess, handleError ) );
                 }
                 //get  user by id
-                 function getUserbyId(user_id) {
-                   
+                 function getUserbyId( user_id ) {
                     var request = $http({
                         method: "get",
-                        url: "http://localhost:3000/api/user/"+ user_id,
+                        url: "http://localhost:3000/api/user/"+user_id,
                         params: {
                             action: "get"
+                        },
+                        data: {
+                            data:data
                         }
-                    
-                        
                     });
                     return( request.then( handleSuccess, handleError ) );
                 }
 
                 //update
                 function updateUser(data) {//¿data y id??
-               
+                  
+                    
+                      console.log('-----user id--------'+data.user_id);
                     var request = $http({
                         method: "put",
                         url: "http://localhost:3000/api/user/"+data.user_id,
