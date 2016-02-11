@@ -73,11 +73,11 @@ var app =angular
                             }
                         );
                         // Reset the form once values have been updated.
-                    $scope.updateable = "";
-
+                  
                 };
 
                 $scope.getUserbyId = function(){
+
                     userService.getUserbyId($scope.user_id)
                     .then(asingUser);
                     //refresh
@@ -152,6 +152,7 @@ var app =angular
                         params: {
                             action: "get"
                         }
+
                     });
                     return( request.then( handleSuccess, handleError ) );
                 }
@@ -162,29 +163,32 @@ var app =angular
                         url: "http://localhost:3000/api/user/"+user_id,
                         params: {
                             action: "delete"
-                        },
+                        }
 
                     });
                     return( request.then( handleSuccess, handleError ) );
                 }
                 //get  user by id
                  function getUserbyId( user_id ) {
+                    console.log('http://localhost:3000/api/user/ '+user_id);
                     var request = $http({
                         method: "get",
-                        url: "http://localhost:3000/api/user/"+user_id,
+                        url: "http://localhost:3000/api/user/"+ user_id,
                         params: {
                             action: "get"
                         },
-                        data: {
-                            data:data
+                        data:{
+                          data:data  
                         }
+                            
+                        
                     });
                     return( request.then( handleSuccess, handleError ) );
                 }
 
                 //update
                 function updateUser(data) {//¿data y id??
-                  
+               
                     var request = $http({
                         method: "put",
                         url: "http://localhost:3000/api/user/"+data.user_id,
