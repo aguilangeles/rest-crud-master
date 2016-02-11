@@ -125,6 +125,7 @@ var app =angular
                 $scope.reset = function (){
                 $scope.form.$setPristine();
                 $scope.form1.$setPristine();
+                
                 }
             }
         );

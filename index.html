@@ -103,15 +103,15 @@
 				<h3>Buscar Usuario por id</h3>
 				<br>
 				<div>
-					<div class="input-group" ng-class="{ 'has-error' : userNotFound }">
-					<input type="num" class="form-control" id="inputUser" ng-model="user_id">
+					<div class="input-group" ng-class="{ 'has-error' : userNotFound && inputUser.$pristine }">
+					<input type="num" class="form-control"  ng-model="user_id">
 					
 					<span class="input-group-btn">
-						<button class="btn btn-primary"   ng-click="getUserbyId()" >Find</button>
+						<button class="btn btn-primary"   ng-click="getUserbyId(); reset()" >Find</button>
 					</span>
 					
 				</div>
-				<p class="help-block" ng-show="userNotFound">{{userNotFound}}</p>
+				<p class="help-block" ng-show="userNotFound  && !inputUser.$pristine">{{userNotFound}}</p>
 				</div>
 				<div>
 					<div ng-show="userExist" >
