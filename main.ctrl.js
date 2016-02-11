@@ -22,7 +22,7 @@ var app =angular
                 $scope.user_id="";
                 //
                 $scope.auser={};
-
+                //
                 $scope.updateable="";
 
             
@@ -46,10 +46,7 @@ var app =angular
                             }
                         )
                     ;
-
-               
                     // Reset the form once values have been consumed.
-                    //cope.formData = ""; 
                         $scope.formData = '';
                        };
                 // I remove the given user from the current collection.
@@ -73,14 +70,14 @@ var app =angular
                             }
                         );
                         // Reset the form once values have been updated.
+                        $scope.updateable='';
                 };
 
                 $scope.getUserbyId = function(){
                     console.log('get user by id' + $scope.user_id);
                     userService.getUserbyId($scope.user_id)
                     .then(asingUser);
-                    //refresh
-                
+                                
                 }
 
               
@@ -110,6 +107,7 @@ var app =angular
                 }
                 $scope.reset = function (){
                 $scope.form.$setPristine();
+                $scope.form1.$setPristine();
                 }
             }
         );
