@@ -79,11 +79,11 @@
 						<label for="">Email</label>
 						<!--validar puntocom-->
 						<input type="email" name="email" class="form-control" ng-model="formData.email" required>
-						<p ng-show="form.email.$invalid && !form.email.$pristiine"class="help-block">Ingrese un mail valido</p>
+						<p ng-show="form.email.$invalid && !form.email.$pristine"class="help-block">Ingrese un mail valido</p>
 					</div>
 
 					<div class="form-group" ng-class="{ 'has-error' : form.password.$invalid && !form.password.$pristine }">
-            <label>Username</label>
+            <label>Password</label>
             <input type="password" name="password" class="form-control" ng-model="formData.password" ng-minlength="6" ng-maxlength="20">
             <p ng-show="form.password.$error.minlength" class="help-block">Password demasiado corto.</p>
             <p ng-show="form.password.$error.maxlength" class="help-block">Password demasiado largo.</p>
@@ -92,9 +92,11 @@
 			{{formData}}
 			</pre-->
 					<div class="col-xs-12">
-						<button class="btn btn-success pull-right" ng-disabled="formData.$invalid"> <span class="glyphicon glyphicon-plus-sign"> Add</span></button>
+						
+						<button class="btn btn-success pull-right" ng-disabled="form.$invalid" ng-click="reset()"> <span class="glyphicon glyphicon-plus-sign"> Add</span></button>
 					</div>				 
 				</form>
+				<pre>{{form.$pristine}}</pre>
 			</div>
 			<div class="col-lg-6">		
 				<h3>Buscar Usuario por id</h3>

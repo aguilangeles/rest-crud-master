@@ -46,9 +46,11 @@ var app =angular
                             }
                         )
                     ;
+
+               
                     // Reset the form once values have been consumed.
-                    $scope.formData = ""; 
-                   
+                    //cope.formData = ""; 
+                    $scope.formData = '';
                        };
                 // I remove the given user from the current collection.
                 $scope.removeUser = function( user ) {
@@ -80,7 +82,13 @@ var app =angular
                     //refresh
                     $scope.user_id="";
                 }
+                $scope.reset = function (){
+                $scope.form.$setPristine();
+       
+                
 
+                //$scope.form.$setPristine();
+                }
                 // ---
                 // PRIVATE METHODS.
                 // ---
@@ -92,6 +100,7 @@ var app =angular
                     $scope.updateable=auser[0];
                     //$scope.auser=auser;
                 }
+
                 // I load the remote data from the server.
                 function loadRemoteData() {
                     // The userService returns a promise.
