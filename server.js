@@ -144,6 +144,7 @@ curut2.all(function(req,res,next){
 curut2.get(function(req,res,next){
 
     var user_id = req.params.user_id;
+    console.log('get data to update================')
 
     req.getConnection(function(err,conn){
 
@@ -157,9 +158,13 @@ curut2.get(function(req,res,next){
             }
 
             //if user not found
-            if(rows.length < 1)
-                return res.send("User Not found");
+            if(rows.length < 1){
+                 console.log('user not found');
 
+                return res.send("User Not found");
+            }
+                
+           
             //res.render('edit',{title:"Edit user",data:rows});
 
             // leo

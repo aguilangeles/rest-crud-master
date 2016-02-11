@@ -1,5 +1,7 @@
+var mensaje;
 /**
 http://www.bennadel.com/blog/2612-using-the-http-service-in-angularjs-to-make-ajax-requests.htm
+https://scotch.io/tutorials
 */
 var app =angular
 .module('myapplication');
@@ -24,6 +26,8 @@ var app =angular
                 $scope.auser={};
                 //
                 $scope.updateable="";
+                $scope.userNotFound="";
+                $scope.userExist=false;
 
             
                 //
@@ -76,7 +80,10 @@ var app =angular
                 $scope.getUserbyId = function(){
                     console.log('get user by id' + $scope.user_id);
                     userService.getUserbyId($scope.user_id)
-                    .then(asingUser);
+                    .then(asingUser);  
+
+                    $scope.user_id='';
+
                                 
                 }
 
@@ -89,8 +96,18 @@ var app =angular
                     $scope.users = newusers;
                 }
                 function asingUser(auser){
-                    $scope.updateable=auser[0];
-                    //$scope.auser=auser;
+                   
+                    if (auser =="User Not found"){
+                       $scope.userNotFound=auser;
+                        console.log("hacer algo de error");
+                    }else{
+                        $scope.updateable=auser[0]; 
+                        $scope.userExist=true;
+                        $userNotFound="";
+                    }           
+                   
+
+        
                 }
 
                 // I load the remote data from the server.

@@ -72,6 +72,7 @@
 					<div class="form-group" ng-class="{ 'has-error' : form.name.$invalid && !form.name.$pristine }">
 						<label for="">Nombre</label>
 						<input type="text" name="name" class="form-control" ng-model="formData.name" required>
+						
 						<p ng-show="form.name.$invalid && !form.name.$pristine" class="help-block">Nombre es requerido</p>
 
 					</div>
@@ -101,14 +102,19 @@
 			<div class="col-lg-6">		
 				<h3>Buscar Usuario por id</h3>
 				<br>
-				<div class="input-group">
-					<input type="num" class="form-control" ng-model="user_id">
+				<div>
+					<div class="input-group" ng-class="{ 'has-error' : userNotFound }">
+					<input type="num" class="form-control" id="inputUser" ng-model="user_id">
+					
 					<span class="input-group-btn">
 						<button class="btn btn-primary"   ng-click="getUserbyId()" >Find</button>
 					</span>
+					
+				</div>
+				<p class="help-block" ng-show="userNotFound">{{userNotFound}}</p>
 				</div>
 				<div>
-					<div>
+					<div ng-show="userExist" >
 						<br><br>
 						<form  name="form1" class="form1"  ng-submit="updateUser()" novalidate>
 							<div class="form-group" ng-class="{ 'has-error' : form1.name.$invalid && !form1.name.$pristine }">
