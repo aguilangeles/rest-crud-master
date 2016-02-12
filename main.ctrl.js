@@ -28,11 +28,13 @@ var app =angular
                 $scope.updateable="";
                 $scope.userNotFound="";
                 $scope.userExist=false;
+              $scope.getTime="";
                 
          
                 //
                
                 loadRemoteData();
+                getCurrentTime();
                 // ---
                 // PUBLIC METHODS.
                 // ---
@@ -88,7 +90,16 @@ var app =angular
                                
                 }
 
-              
+                $scope.reset = function (){
+
+                $scope.form.$setPristine();
+                $scope.form1.$setPristine();                
+                }
+                
+               function getCurrentTime(){
+                    userService.getTime().then(asingTime);
+                   
+                }
                 // ---
                 // PRIVATE METHODS.
                 // ---
@@ -122,11 +133,12 @@ var app =angular
                         )
                     ;
                 }
-                $scope.reset = function (){
 
-                $scope.form.$setPristine();
-                $scope.form1.$setPristine();                
+
+                function asingTime(time){
+                    $scope.getTime=time;
                 }
+
             }
         );
         // -------------------------------------------------- //
@@ -141,7 +153,9 @@ var app =angular
                     getUsers: getUsers,
                     removeUser: removeUser,
                     getUserbyId: getUserbyId,
-                    updateUser:updateUser
+                    updateUser:updateUser,
+                    getTime:getTime
+                   
                 });
                 // ---
                 // PUBLIC METHODS.
@@ -216,6 +230,17 @@ var app =angular
                     return( request.then( handleSuccess, handleError ) );
                 }
 
+                    function getTime() {//¿data y id??
+               
+                    var request = $http({
+                        method: "get",
+                        url: "http://localhost:3000/time",
+                        params: {
+                            action: "get"
+                        }
+                    });
+                    return( request.then( handleSuccess, handleError ) );
+                }
                 // ---
                 // PRIVATE METHODS.
                 // ---

@@ -31,7 +31,12 @@ app.use(
 );
 
 app.get('/',function(req,res){
-    res.send('Welcome');
+    res.send('Welcome to me');
+});
+
+app.get('/time',function(req,res){
+    var time = getDateTime();
+    res.send(time);
 });
 
 
@@ -56,7 +61,6 @@ var curut = router.route('/user');
 
 //show the CRUD interface | GET
 curut.get(function(req,res,next){
-
 
     req.getConnection(function(err,conn){
         
@@ -144,8 +148,7 @@ curut2.all(function(req,res,next){
 curut2.get(function(req,res,next){
 
     var user_id = req.params.user_id;
-    console.log('get data to update================')
-
+   
     req.getConnection(function(err,conn){
 
         if (err) return next("Cannot Connect");
@@ -253,3 +256,29 @@ var server = app.listen(3000,function(){
    console.log("Listening to port %s",server.address().port);
 
 });
+
+function getDateTime() {
+
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return 'Fecha '+ day + '-' + month + '-' + year + '. Hora: ' + hour +':' +min + ':' +sec;
+    //return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+
+}
