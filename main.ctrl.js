@@ -28,8 +28,8 @@ var app =angular
                 $scope.updateable="";
                 $scope.userNotFound="";
                 $scope.userExist=false;
-
-            
+                
+         
                 //
                
                 loadRemoteData();
@@ -75,16 +75,17 @@ var app =angular
                         );
                         // Reset the form once values have been updated.
                         $scope.updateable='';
+                        $scope.user_id='';
+                       //ocultar el form
+                        $scope.userExist=false;
                 };
 
                 $scope.getUserbyId = function(){
+                    $scope.userNotFound='';
                     console.log('get user by id' + $scope.user_id);
                     userService.getUserbyId($scope.user_id)
                     .then(asingUser);  
-
-                    $scope.user_id='';
-
-                                
+                               
                 }
 
               
@@ -100,14 +101,13 @@ var app =angular
                     if (auser =="User Not found"){
                        $scope.userNotFound=auser;
                         console.log("hacer algo de error");
+                        $scope.userExist=false;
                     }else{
                         $scope.updateable=auser[0]; 
                         $scope.userExist=true;
-                        $userNotFound="";
+                        
                     }           
-                   
-
-        
+                           
                 }
 
                 // I load the remote data from the server.
@@ -123,9 +123,9 @@ var app =angular
                     ;
                 }
                 $scope.reset = function (){
+
                 $scope.form.$setPristine();
-                $scope.form1.$setPristine();
-                
+                $scope.form1.$setPristine();                
                 }
             }
         );
