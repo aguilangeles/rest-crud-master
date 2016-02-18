@@ -9,7 +9,7 @@ var app =angular
  // I control the main demo.
         app.controller(
             "MainController",
-            function( $scope, userService ) {
+            function( $scope, userService,$interval ) {
                 $scope.title="ABM";
                 $scope.lista="Listado de Usuarios";
                 $scope.sortType ='name';
@@ -28,13 +28,21 @@ var app =angular
                 $scope.updateable="";
                 $scope.userNotFound="";
                 $scope.userExist=false;
-              $scope.getTime="";
+                $scope.getTime="";
+
+                 var tiempo = $interval(function(){
+                    console.log('entro')
+                    return getCurrentTime();
+                }, 8000);
+
+
+
                 
          
                 //
                
                 loadRemoteData();
-                getCurrentTime();
+                //getCurrentTime();
                 // ---
                 // PUBLIC METHODS.
                 // ---
@@ -96,9 +104,10 @@ var app =angular
                 $scope.form1.$setPristine();                
                 }
                 
+
                function getCurrentTime(){
                     userService.getTime().then(asingTime);
-                   
+                                       
                 }
                 // ---
                 // PRIVATE METHODS.
@@ -133,7 +142,6 @@ var app =angular
                         )
                     ;
                 }
-
 
                 function asingTime(time){
                     $scope.getTime=time;
@@ -267,3 +275,7 @@ var app =angular
                 }
             }
         );
+
+
+
+//
