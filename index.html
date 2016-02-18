@@ -25,9 +25,18 @@
 					</span>
 					<input type="text" class="form-control" ng-model="searchInput">
 			
-					<span class="input-group-addon">
-						<span class="glyphicon glyphicon-time"></span>
-					</span>
+					<!--span class="input-group-btn">
+						
+						<button class="btn bnt-info"><span class="glyphicon glyphicon-time"></span></button>
+					</span-->
+					<span class="input-group-btn">
+        				<button class="btn btn-danger" ng-show="!isTimeRun" ng-click="init()" type="button">
+        					<span class="glyphicon glyphicon-time"></span>
+        				</button>
+        				<button class="btn btn-success"  ng-show="isTimeRun" ng-click="stop()" type="button">
+        					<span class="glyphicon glyphicon-time"></span>
+        				</button>
+      				</span>
 					<input type="text" class="form-control" ng-model="getTime">
 				</div>
 				<hr>

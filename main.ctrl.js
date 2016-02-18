@@ -30,45 +30,45 @@ var app =angular
                 $scope.userExist=false;
                 $scope.getTime="";
 
-                 var tiempo = $interval(function(){
-                    console.log('entro')
-                    return getCurrentTime();
-                }, 8000);
+                $scope.isTimeRun=false;
 
-
-
-                
+                $scope.stop="";
+                $scope.init ="";
+                var tiempo;
+               
          
                 //
                
                 loadRemoteData();
-                //getCurrentTime();
+                
                 // ---
                 // PUBLIC METHODS.
                 // ---
                 // I process the add-user form.
+
+
                 $scope.addUser = function() {
                     // If the data we provide is invalid, the promise will be rejected,
                     // at which point we can tell the user that something went wrong. In
                     // this case, I'm just logging to the console to keep things very
                     // simple for the demo.
                     userService.addUser($scope.formData)
-                        .then(
-                            loadRemoteData,
-                            function( errorMessage ) {
-                                console.warn( errorMessage );
-                            }
+                    .then(
+                        loadRemoteData,
+                        function( errorMessage ) {
+                            console.warn( errorMessage );
+                        }
                         )
                     ;
                     // Reset the form once values have been consumed.
-                        $scope.formData = '';
-                       };
+                    $scope.formData = '';
+                };
                 // I remove the given user from the current collection.
                 $scope.removeUser = function( user ) {
                     // Rather than doing anything clever on the client-side, I'm just
                     // going to reload the remote data.
                     userService.removeUser( user.user_id )
-                        .then( loadRemoteData )
+                    .then( loadRemoteData )
                     ;
                 };
 
@@ -77,38 +77,54 @@ var app =angular
                  // Rather than doing anything clever on the client-side, I'm just
                     // going to reload the remote data.
                     userService.updateUser($scope.updateable)
-                        .then(
-                            loadRemoteData,
-                            function( errorMessage ) {
-                                console.warn( errorMessage );
-                            }
+                    .then(
+                        loadRemoteData,
+                        function( errorMessage ) {
+                            console.warn( errorMessage );
+                        }
                         );
                         // Reset the form once values have been updated.
                         $scope.updateable='';
                         $scope.user_id='';
                        //ocultar el form
-                        $scope.userExist=false;
-                };
+                       $scope.userExist=false;
+                   };
 
-                $scope.getUserbyId = function(){
+                   $scope.getUserbyId = function(){
                     $scope.userNotFound='';
                     console.log('get user by id' + $scope.user_id);
                     userService.getUserbyId($scope.user_id)
                     .then(asingUser);  
-                               
+                    
                 }
 
                 $scope.reset = function (){
 
-                $scope.form.$setPristine();
-                $scope.form1.$setPristine();                
+                    $scope.form.$setPristine();
+                    $scope.form1.$setPristine();                
                 }
                 
+                $scope.init = function(){
+                   $scope.isTimeRun=true;
+                   tiempo = $interval(function(){
+                     
+                    return getCurrentTime();
+                }, 3000);
+               }
 
-               function getCurrentTime(){
-                    userService.getTime().then(asingTime);
-                                       
-                }
+               $scope.stop = function(){
+                $scope.isTimeRun=false;
+                $interval.cancel(tiempo);
+            };
+
+            $scope.$on('$destroy', function () 
+            { 
+                $scope.stop(); 
+            });
+            function getCurrentTime(){
+                userService.getTime().then(asingTime);
+                
+            }
                 // ---
                 // PRIVATE METHODS.
                 // ---
@@ -117,28 +133,28 @@ var app =angular
                     $scope.users = newusers;
                 }
                 function asingUser(auser){
-                   
+                 
                     if (auser =="User Not found"){
-                       $scope.userNotFound=auser;
-                        console.log("hacer algo de error");
-                        $scope.userExist=false;
-                    }else{
-                        $scope.updateable=auser[0]; 
-                        $scope.userExist=true;
-                        
-                    }           
-                           
-                }
+                     $scope.userNotFound=auser;
+                     console.log("hacer algo de error");
+                     $scope.userExist=false;
+                 }else{
+                    $scope.updateable=auser[0]; 
+                    $scope.userExist=true;
+                    
+                }           
+                
+            }
 
                 // I load the remote data from the server.
                 function loadRemoteData() {
                     // The userService returns a promise.
                     userService.getUsers()
-                        .then(
-                            function(users) {
-                                console.log('users' + users);
-                                applyRemoteData( users );
-                            }
+                    .then(
+                        function(users) {
+                            console.log('users' + users);
+                            applyRemoteData( users );
+                        }
                         )
                     ;
                 }
@@ -147,8 +163,9 @@ var app =angular
                     $scope.getTime=time;
                 }
 
+
             }
-        );
+            );
         // -------------------------------------------------- //
         // -------------------------------------------------- //
         // I act a repository for the remote user collection.
