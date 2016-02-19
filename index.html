@@ -16,29 +16,32 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-12">			
-
-				<h3>{{lista}}</h3>
+			<div class="col-lg-6">
 				<div class="input-group ">
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-search"></span>
 					</span>
 					<input type="text" class="form-control" ng-model="searchInput">
-			
-					<!--span class="input-group-btn">
-						
-						<button class="btn bnt-info"><span class="glyphicon glyphicon-time"></span></button>
-					</span-->
-					<span class="input-group-btn">
-        				<button class="btn btn-danger" ng-show="!isTimeRun" ng-click="init()" type="button">
-        					<span class="glyphicon glyphicon-time"></span>
-        				</button>
-        				<button class="btn btn-success"  ng-show="isTimeRun" ng-click="stop()" type="button">
-        					<span class="glyphicon glyphicon-time"></span>
-        				</button>
-      				</span>
-					<input type="text" class="form-control" ng-model="getTime">
 				</div>
+			</div>
+			<div class="col-lg-6">					
+				<div class="input-group">				
+					<span class="input-group-btn">
+						
+						<button class="btn btn-danger" ng-show="!isTimeRun" ng-click="init()" type="button">
+							<span class="glyphicon glyphicon-play"></span>
+						</button>
+						<button class="btn btn-success"  ng-show="isTimeRun" ng-click="stop()" type="button">
+							<span class="glyphicon glyphicon-stop"></span>
+						</button>
+					</span>
+					<input type="text" class="form-control" ng-model="getTime" disabled>			
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">			
+				<h3>{{lista}}</h3>
 				<hr>
 				<table class="table table-striped">
 					<thead>
@@ -65,103 +68,95 @@
 							<th>Delete</th>
 						</tr>
 					</thead>
-				  <tbody>
-				    <tr ng-repeat="user in users | filter: searchInput |orderBy:sortType:sortReverse">
-				      <th scope="row">{{user.user_id}}</th>				     
-				      <td>{{user.name}}</td>
-				      <td>{{user.email}}</td>
-				      <td>{{user.password}}</td>
-				      <td><button class="btn btn-danger"> 
-							<span class="glyphicon glyphicon-minus-sign" ng-click="removeUser(user)"> Delete</span>
-						</button>
-					</td>
-				    </tr>
-				    
-				  </tbody>
-				</table>
-			</div>
-			<div class="col-lg-6">			
-				<h3>Agregar nuevo Usuario</h3>
-				<form  name="form" class="form"  ng-submit="addUser()" novalidate>
-					<div class="form-group" ng-class="{ 'has-error' : form.name.$invalid && !form.name.$pristine }">
-						<label for="">Nombre</label>
-						<input type="text" name="name" class="form-control" ng-model="formData.name" required>
-						
-						<p ng-show="form.name.$invalid && !form.name.$pristine" class="help-block">Nombre es requerido</p>
+					<tbody>
+						<tr ng-repeat="user in users | filter: searchInput |orderBy:sortType:sortReverse">
+							<th scope="row">{{user.user_id}}</th>				     
+							<td>{{user.name}}</td>
+							<td>{{user.email}}</td>
+							<td>{{user.password}}</td>
+							<td><button class="btn btn-danger"> 
+								<span class="glyphicon glyphicon-minus-sign" ng-click="removeUser(user)"> Delete</span>
+							</button>
+						</td>
+					</tr>			    
+				</tbody>
+			</table>
+		</div>
+		<div class="col-lg-6">			
+			<h3>Agregar nuevo Usuario</h3>
+			<form  name="form" class="form"  ng-submit="addUser()" novalidate>
+				<div class="form-group" ng-class="{ 'has-error' : form.name.$invalid && !form.name.$pristine }">
+					<label for="">Nombre</label>
+					<input type="text" name="name" class="form-control" ng-model="formData.name" required>		
+					<p ng-show="form.name.$invalid && !form.name.$pristine" class="help-block">Nombre es requerido</p>
+				</div>
+				<div class="form-group" ng-class="{ 'has-error' : form.email.$invalid && !form.email.$pristine }">
+					<label for="">Email</label>
+					<!--validar puntocom-->
+					<input type="email" name="email" class="form-control" ng-model="formData.email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
+					<p ng-show="form.email.$invalid && !form.email.$pristine"class="help-block">Ingrese un mail valido</p>
+				</div>
 
-					</div>
-					<div class="form-group" ng-class="{ 'has-error' : form.email.$invalid && !form.email.$pristine }">
-						<label for="">Email</label>
-						<!--validar puntocom-->
-						<input type="email" name="email" class="form-control" ng-model="formData.email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
-						<p ng-show="form.email.$invalid && !form.email.$pristine"class="help-block">Ingrese un mail valido</p>
-					</div>
-
-					<div class="form-group" ng-class="{ 'has-error' : form.password.$invalid && !form.password.$pristine }">
-            <label>Password</label>
-            <input type="password" name="password" class="form-control" ng-model="formData.password" ng-minlength="6" ng-maxlength="20">
-            <p ng-show="form.password.$error.minlength" class="help-block">Password demasiado corto.</p>
-            <p ng-show="form.password.$error.maxlength" class="help-block">Password demasiado largo.</p>
-        </div>
+				<div class="form-group" ng-class="{ 'has-error' : form.password.$invalid && !form.password.$pristine }">
+					<label>Password</label>
+					<input type="password" name="password" class="form-control" ng-model="formData.password" ng-minlength="6" ng-maxlength="20">
+					<p ng-show="form.password.$error.minlength" class="help-block">Password demasiado corto.</p>
+					<p ng-show="form.password.$error.maxlength" class="help-block">Password demasiado largo.</p>
+				</div>
 			<!--pre class=" col-xs-12 pull-right">
 			{{formData}}
-			</pre-->
-					<div class="col-xs-12">
-						
-						<button class="btn btn-success pull-right" ng-disabled="form.$invalid" ng-click="reset()"> <span class="glyphicon glyphicon-plus-sign"> Add</span></button>
-					</div>				 
-				</form>
-				<!--pre>{{form.$pristine}}</pre-->
-			</div>
-			<div class="col-lg-6">		
-				<h3>Buscar Usuario por id</h3>
-				<br>
+		</pre-->
+		<div class="col-xs-12">
+			<button class="btn btn-success pull-right" ng-disabled="form.$invalid" ng-click="reset()"> <span class="glyphicon glyphicon-plus-sign"> Add</span></button>
+		</div>				 
+	</form>
+	<!--pre>{{form.$pristine}}</pre-->
+</div>
+<div class="col-lg-6">		
+	<h3>Buscar Usuario por id</h3>
+	<br>
+	<div class="input-group" ng-class="{ 'has-error' : userNotFound  }">
+		<input type="num" class="form-control"  ng-model="user_id">
+		<span class="input-group-btn">
+			<button class="btn btn-primary"   ng-click="getUserbyId();" >Find</button>
+		</span>
+	</div>
+	<p class="help-block" ng-hide="userExist" ng-show="userNotFound">{{userNotFound}}</p>
+	<div>
+		<!---div ng-show="userExist" -->
+		<div ng-hide="!userExist " ng-show="userExist">
+			<br><br>
+			<form  name="form1" class="form1"  ng-submit="updateUser()" novalidate>
+				<div class="form-group" ng-class="{ 'has-error' : form1.name.$invalid && !form1.name.$pristine }">
+					
+					<input type="text" name="name" class="form-control" ng-model="updateable.name" required>
+					<p ng-show="form1.name.$invalid && !form1.name.$pristine" class="help-block">Nombre es requerido</p>
 
-					<div class="input-group" ng-class="{ 'has-error' : userNotFound  }">
-						<input type="num" class="form-control"  ng-model="user_id">
+				</div>
+				<div class="form-group" ng-class="{ 'has-error' : form1.email.$invalid && !form1.email.$pristine }">
+					
+					<!--validar puntocom-->
+					<input type="email" name="email" class="form-control" ng-model="updateable.email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
+					<p ng-show="form1.email.$invalid && !form1.email.$pristine"class="help-block">Ingrese un mail valido</p>
+				</div>
 
-						<span class="input-group-btn">
-							<button class="btn btn-primary"   ng-click="getUserbyId();" >Find</button>
-						</span>
+				<div class="form-group" ng-class="{ 'has-error' : form1.password.$invalid && !form1.password.$pristine }">
+					
+					<input type="text" name="password" class="form-control" ng-model="updateable.password" ng-minlength="6" ng-maxlength="20">
+					<p ng-show="form1.password.$error.minlength" class="help-block">Password demasiado corto.</p>
+					<p ng-show="form1.password.$error.maxlength" class="help-block">Password demasiado largo.</p>
+				</div>
 
-					</div>
-					<p class="help-block" ng-hide="userExist" ng-show="userNotFound">{{userNotFound}}</p>
+				<div class="col-xs-12">
 
-				<div>
-					<!---div ng-show="userExist" -->
-						<div ng-hide="!userExist " ng-show="userExist">
-						<br><br>
-						<form  name="form1" class="form1"  ng-submit="updateUser()" novalidate>
-							<div class="form-group" ng-class="{ 'has-error' : form1.name.$invalid && !form1.name.$pristine }">
-								
-								<input type="text" name="name" class="form-control" ng-model="updateable.name" required>
-								<p ng-show="form1.name.$invalid && !form1.name.$pristine" class="help-block">Nombre es requerido</p>
+					<button class="btn btn-info btn-large btn-block" ng-disabled="form1.$invalid"> Update</button>
+				</div>				 
+			</form>
+			<!--pre>{{form1.$pristine}}</pre-->
 
-							</div>
-							<div class="form-group" ng-class="{ 'has-error' : form1.email.$invalid && !form1.email.$pristine }">
-								
-								<!--validar puntocom-->
-								<input type="email" name="email" class="form-control" ng-model="updateable.email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
-								<p ng-show="form1.email.$invalid && !form1.email.$pristine"class="help-block">Ingrese un mail valido</p>
-							</div>
+		</div>
 
-							<div class="form-group" ng-class="{ 'has-error' : form1.password.$invalid && !form1.password.$pristine }">
-								
-								<input type="text" name="password" class="form-control" ng-model="updateable.password" ng-minlength="6" ng-maxlength="20">
-								<p ng-show="form1.password.$error.minlength" class="help-block">Password demasiado corto.</p>
-								<p ng-show="form1.password.$error.maxlength" class="help-block">Password demasiado largo.</p>
-							</div>
-
-							<div class="col-xs-12">
-
-								<button class="btn btn-info btn-large btn-block" ng-disabled="form1.$invalid"> Update</button>
-							</div>				 
-						</form>
-						<!--pre>{{form1.$pristine}}</pre-->
-
-					</div>
-
-				</div><!--row-->
-			</div>
+	</div><!--row-->
+</div>
 </body>
 </html>
